@@ -48,6 +48,9 @@
 		<!-- Logs et al. -->
 		<slf4j.version>1.7.12</slf4j.version>
 		<slf4jlog4.version>1.7.12</slf4jlog4.version>
+		
+		<!-- JUnit -->
+		<junit-version>4.12</junit-version>
 	</properties>
 
 
