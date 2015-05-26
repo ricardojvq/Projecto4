@@ -3,7 +3,7 @@ package projecto4.grupo1.albertoricardo;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -12,19 +12,14 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Named
-@SessionScoped
+@RequestScoped
 public class UserLogin implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	static Logger logger = LoggerFactory.getLogger(UserLogin.class);
 
 	@EJB
 	private UserEJBLocal userejb;
@@ -38,12 +33,9 @@ public class UserLogin implements Serializable {
 	private String result = "";
 
 	public String doLogin() {
-		logger.trace("Iniciado login");
-		logger.error("erro");
 		String destiny = "";
 		boolean verified = userejb.verifyLogin(this.username, this.password);
 		if (verified) {
-			logger.debug("Login verificado para "+username);
 			setFacesContext();
 			userlog.setEmail(username);
 			try {

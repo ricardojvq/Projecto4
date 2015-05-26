@@ -11,9 +11,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Entity
 @Table (name="playlists")
 public class PlaylistEntity{
@@ -28,9 +25,6 @@ public class PlaylistEntity{
 	List<MusicEntity>musics;
 	@ManyToOne
 	private UserEntity userOwner;
-
-	
-//	static Logger logger = LoggerFactory.getLogger(PlaylistEntity.class);
 	
 	
 	public PlaylistEntity() {

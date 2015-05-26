@@ -3,7 +3,6 @@ package projecto4.grupo1.albertoricardo;
 import java.util.List;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 
 @Local
 public interface UserEJBLocal {

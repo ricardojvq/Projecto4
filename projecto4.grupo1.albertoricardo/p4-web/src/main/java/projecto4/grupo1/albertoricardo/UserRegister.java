@@ -8,7 +8,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class UserRegister implements Serializable {
 
 	/**
@@ -37,6 +37,15 @@ public class UserRegister implements Serializable {
 				result = "Já existente";
 				destiny="login.xhtml?faces-redirect=true";
 			}
+		} else if (!email.equals(emailConfirm) && password.equals(passwordConfirm)) {
+			result = "E-mails não correspondem.";
+			destiny="login.xhtml?faces-redirect=true";
+		} else if (email.equals(emailConfirm) && !password.equals(passwordConfirm)) {
+			result = "Passwords não correspondem.";
+			destiny="login.xhtml?faces-redirect=true";
+		} else {
+			result = "E-mails & Password não correspondem.";
+			destiny="login.xhtml?faces-redirect=true";
 		}
 
 		return destiny;
