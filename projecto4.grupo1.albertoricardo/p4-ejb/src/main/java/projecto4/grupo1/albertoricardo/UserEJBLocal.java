@@ -14,7 +14,7 @@ public interface UserEJBLocal {
 
 	void populate();
 
-	public abstract List<User> firstLetter(String letter);
+	public abstract List<UserEntity> firstLetter(String letter);
 
 	int getUserID(String username);
 

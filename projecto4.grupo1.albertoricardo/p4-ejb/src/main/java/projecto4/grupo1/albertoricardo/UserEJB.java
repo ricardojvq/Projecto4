@@ -29,11 +29,11 @@ public class UserEJB implements UserEJBLocal {
 	}
 
 	@Override
-	public List<User> firstLetter(String letter) {
-		Query q = em.createQuery("select u from User u where email like :l"); // 'User' é a classe adicionada no persistence.xml
+	public List<UserEntity> firstLetter(String letter) {
+		Query q = em.createQuery("select u from UserEntity u where email like :l"); // 'User' é a classe adicionada no persistence.xml
 		q.setParameter("l", letter);
 		@SuppressWarnings("unchecked")
-		List<User> usr = q.getResultList();
+		List<UserEntity> usr = q.getResultList();
 		return usr;
 	}
 
@@ -43,10 +43,10 @@ public class UserEJB implements UserEJBLocal {
 	@Override
 	public boolean verifyLogin(String email, String password) {
 		boolean verified;
-		Query q = em.createQuery("select u from User u where u.email like :e");
+		Query q = em.createQuery("select u from UserEntity u where u.email like :e");
 		q.setParameter("e", email);
 		try {
-			User usr = (User) q.getSingleResult();
+			UserEntity usr = (UserEntity) q.getSingleResult();
 			if (usr.getPassword().equals(password)) verified = true;
 			else verified = false;
 		} catch (NoResultException nre) {
@@ -62,16 +62,16 @@ public class UserEJB implements UserEJBLocal {
 	 */
 	@Override
 	public void registerUser(String username, String password) {
-		User u = new User(username, password);
+		UserEntity u = new UserEntity(username, password);
 		em.persist(u);
 	}
 
 	@Override
 	public int getUserID(String username) {
 		int id = -1;
-		Query q = em.createQuery("select u from User u where u.email like :e");
+		Query q = em.createQuery("select u from UserEntity u where u.email like :e");
 		q.setParameter("e", username);
-		User u = (User) q.getSingleResult();
+		UserEntity u = (UserEntity) q.getSingleResult();
 		id = u.getId();
 		return id;
 	}

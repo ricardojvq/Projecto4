@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Archiver-Version: Plexus Archiver
-Built-By: ricardoquirino
-Class-Path: lib/p4-jpa-0.0.1-SNAPSHOT.jar lib/postgresql-9.1-901-1.jdb
- c4.jar
-Created-By: Apache Maven
-Build-Jdk: 1.8.0_40
-
