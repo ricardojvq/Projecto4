@@ -1,11 +1,13 @@
-package projecto4.grupo1.albertoricardo;
+package projecto4.grupo1.albertoricardo.user;
 
 import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+
+import projecto4.grupo1.albertoricardo.UserEJBLocal;
+import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
 @RequestScoped
@@ -23,29 +25,37 @@ public class UserRegister implements Serializable {
 	private String emailConfirm;
 	private String password;
 	private String passwordConfirm;
+	private String name;
 	private String result = "";
+	
+
+	public UserRegister() {
+		super();
+	}
+
+
 
 	public String addNewUser() {
-		String destiny = "";
-		if (email.equals(emailConfirm) && password.equals(passwordConfirm)) {
+		String destiny = "login";
+		if (passwordConfirm.equals(password) && emailConfirm.equals(email)) {
 			try {
-				userejb.registerUser(email, password);
-				result = "Adicionado";
-				LoginChoose.setShowRegister(false);
+				userejb.registerUser(email, password, name);
+				result = "Utilizador '"+emailConfirm+"' criado com sucesso!";
+				LoginChoose.toggle();
 				destiny="login.xhtml?faces-redirect=true";
 			} catch(Exception e) {
-				result = "Já existente";
-				destiny="login.xhtml?faces-redirect=true";
+				result = "'"+emailConfirm+"' já existe, escolhe um e-mail diferente.";
+				destiny="";
 			}
-		} else if (!email.equals(emailConfirm) && password.equals(passwordConfirm)) {
+		} else if (passwordConfirm.equals(password) && !emailConfirm.equals(email)) {
 			result = "E-mails não correspondem.";
-			destiny="login.xhtml?faces-redirect=true";
-		} else if (email.equals(emailConfirm) && !password.equals(passwordConfirm)) {
+			destiny="";
+		} else if (!passwordConfirm.equals(password) && emailConfirm.equals(email)) {
 			result = "Passwords não correspondem.";
-			destiny="login.xhtml?faces-redirect=true";
+			destiny="";
 		} else {
 			result = "E-mails & Password não correspondem.";
-			destiny="login.xhtml?faces-redirect=true";
+			destiny="";
 		}
 
 		return destiny;
@@ -56,6 +66,19 @@ public class UserRegister implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}

@@ -9,12 +9,10 @@ public interface UserEJBLocal {
 
 	public abstract boolean verifyLogin(String email, String password);
 
-	public abstract void registerUser(String username, String password);
-
-	void populate();
-
-	public abstract List<UserEntity> firstLetter(String letter);
+	public abstract void registerUser(String username, String password, String name);
 
 	int getUserID(String username);
+
+	String getName(String username);
 
 }

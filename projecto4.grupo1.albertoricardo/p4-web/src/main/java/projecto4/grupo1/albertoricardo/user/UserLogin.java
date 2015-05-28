@@ -1,4 +1,4 @@
-package projecto4.grupo1.albertoricardo;
+package projecto4.grupo1.albertoricardo.user;
 
 import java.io.Serializable;
 
@@ -11,6 +11,9 @@ import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import projecto4.grupo1.albertoricardo.UserEJBLocal;
+import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
 @RequestScoped
@@ -28,29 +31,29 @@ public class UserLogin implements Serializable {
 	private UserLogged userlog;
 
 	private int id;
-	private String username;
+	private String email;
+	private String originalMail;
 	private String password;
 	private String result = "";
 
 	public String doLogin() {
 		String destiny = "";
-		boolean verified = userejb.verifyLogin(this.username, this.password);
-		if (verified) {
+		if (userejb.verifyLogin(this.email, this.password)) {
+			System.out.println(email);
 			setFacesContext();
-			userlog.setEmail(username);
+			userlog.setEmail(originalMail);
 			try {
-				userlog.setId(userejb.getUserID(username));
+				userlog.setName(userejb.getName(email));
+				userlog.setId(userejb.getUserID(email));
 			} catch (NoResultException nre) {
 				// Sem resultados
 			}
 			destiny="/Authorized/entry.xhtml?faces-redirect=true";
-			LoginChoose.setShowLogin(false);
-			result = "Verdadeiro";
+			result = "Login válido";
 		} else { 
-			result = "Login inválido";
+			result = "Login inválido: "+password;
 			destiny = "";
 		}
-
 		return destiny;
 	}
 
@@ -68,11 +71,11 @@ public class UserLogin implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;

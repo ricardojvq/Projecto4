@@ -19,6 +19,8 @@ public class UserEntity {
 	private String email;
 	@Column(nullable=false)
 	private String password;
+	@Column(nullable=false)
+	private String name;
 	@OneToMany(mappedBy="userOwner")
 	private List<MusicEntity> uploadedMusics;
 	@OneToMany(mappedBy="userOwner")
@@ -28,10 +30,11 @@ public class UserEntity {
 		super();
 	}
 
-	public UserEntity(String email, String password) {
+	public UserEntity(String email, String password, String name) {
 		super();
 		this.email = email;
 		this.password = password;
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -56,6 +59,14 @@ public class UserEntity {
 
 	public int getId() {
 		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

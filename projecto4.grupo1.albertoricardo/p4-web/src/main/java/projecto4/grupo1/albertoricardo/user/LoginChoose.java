@@ -1,4 +1,4 @@
-package projecto4.grupo1.albertoricardo;
+package projecto4.grupo1.albertoricardo.user;
 
 import java.io.Serializable;
 
@@ -13,19 +13,27 @@ public class LoginChoose implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static boolean showLogin = false;
+	public static boolean showLogin = true;
 	public static boolean showRegister = false;
 
-	public boolean doShowLogin() {
+	public void doShowLogin() {
 		showLogin = true;
 		showRegister = false;
-		return showLogin;
 	}
 
-	public boolean doShowRegister() {
+	public void doShowRegister() {
 		showLogin = false;
 		showRegister = true;
-		return showRegister;
+	}
+	
+	public static void toggle() {
+		if (showLogin) {
+			showLogin = false;
+			showRegister = true;
+		} else {
+			showLogin = true;
+			showRegister = false;
+		}
 	}
 
 	public boolean isShowLogin() {
@@ -43,6 +51,8 @@ public class LoginChoose implements Serializable {
 	public static void setShowRegister(boolean showR) {
 		showRegister = showR;
 	}
+	
+	
 
 
 
