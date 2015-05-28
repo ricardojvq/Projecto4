@@ -1,4 +1,4 @@
-package projecto4.grupo1.albertoricardo;
+package projecto4.grupo1.albertoricardo.user;
 
 import java.io.Serializable;
 
@@ -12,8 +12,10 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import projecto4.grupo1.albertoricardo.ejb.UserEJBLocal;
+
+
+
 
 @Named
 @SessionScoped
@@ -24,7 +26,7 @@ public class UserLogin implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	static Logger logger = LoggerFactory.getLogger(UserLogin.class);
+	//static Logger log = LoggerFactory.getLogger(User.class); 
 
 	@EJB
 	private UserEJBLocal userejb;
@@ -38,17 +40,18 @@ public class UserLogin implements Serializable {
 	private String result = "";
 
 	public String doLogin() {
-		logger.trace("Iniciado login");
-		logger.error("erro");
+		//log.trace("Iniciado login"+username);
+		//log.error("erro");
 		String destiny = "";
 		boolean verified = userejb.verifyLogin(this.username, this.password);
 		if (verified) {
-			logger.debug("Login verificado para "+username);
+		//	log.debug("Login verificado para "+username);
 			setFacesContext();
 			userlog.setEmail(username);
 			try {
 				userlog.setId(userejb.getUserID(username));
 			} catch (NoResultException nre) {
+			//	log.debug("CATCH XXXXX");
 				// Sem resultados
 			}
 			destiny="/Authorized/entry.xhtml?faces-redirect=true";
@@ -56,6 +59,7 @@ public class UserLogin implements Serializable {
 			result = "Verdadeiro";
 		} else { 
 			result = "Login inválido";
+			//log.warn("login inválido XXXXXX");
 			destiny = "";
 		}
 

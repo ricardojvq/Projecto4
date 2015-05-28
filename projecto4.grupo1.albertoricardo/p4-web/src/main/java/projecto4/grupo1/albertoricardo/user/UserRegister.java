@@ -3,23 +3,20 @@ package projecto4.grupo1.albertoricardo.user;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
-import projecto4.grupo1.albertoricardo.ejb.UserEJBLocal;
-
-
+import projecto4.grupo1.albertoricardo.UserEJBLocal;
+import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class UserRegister implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-//	static Logger log = LoggerFactory.getLogger(UserRegister.class);
 
 	@EJB
 	private UserEJBLocal userejb;
@@ -28,26 +25,38 @@ public class UserRegister implements Serializable {
 	private String emailConfirm;
 	private String password;
 	private String passwordConfirm;
+	private String name;
 	private String result = "";
+	
+
+	public UserRegister() {
+		super();
+	}
+
+
 
 	public String addNewUser() {
-		String destiny = "";
-	//	log.info("add new user");
-		if (email.equals(emailConfirm) && password.equals(passwordConfirm)) {
+		String destiny = "login";
+		if (passwordConfirm.equals(password) && emailConfirm.equals(email)) {
 			try {
-			//	log.info("try add new user");
-				userejb.registerUser(email, password);
-				result = "Adicionado";
-				LoginChoose.setShowRegister(false);
+				userejb.registerUser(email, password, name);
+				result = "Utilizador '"+emailConfirm+"' criado com sucesso!";
+				LoginChoose.toggle();
 				destiny="login.xhtml?faces-redirect=true";
 			} catch(Exception e) {
-		//		log.info("exception add new user");
-				result = "Já existente";
-				destiny="login.xhtml?faces-redirect=true";
+				result = "'"+emailConfirm+"' já existe, escolhe um e-mail diferente.";
+				destiny="";
 			}
+		} else if (passwordConfirm.equals(password) && !emailConfirm.equals(email)) {
+			result = "E-mails não correspondem.";
+			destiny="";
+		} else if (!passwordConfirm.equals(password) && emailConfirm.equals(email)) {
+			result = "Passwords não correspondem.";
+			destiny="";
+		} else {
+			result = "E-mails & Password não correspondem.";
+			destiny="";
 		}
-		
-	//	log.info("return add new user");
 
 		return destiny;
 	}
@@ -57,6 +66,19 @@ public class UserRegister implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}

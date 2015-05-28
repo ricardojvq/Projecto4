@@ -3,7 +3,7 @@ package projecto4.grupo1.albertoricardo.user;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -12,21 +12,17 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import projecto4.grupo1.albertoricardo.ejb.UserEJBLocal;
-
-
-
+import projecto4.grupo1.albertoricardo.UserEJBLocal;
+import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class UserLogin implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	//static Logger log = LoggerFactory.getLogger(User.class); 
 
 	@EJB
 	private UserEJBLocal userejb;
@@ -35,34 +31,29 @@ public class UserLogin implements Serializable {
 	private UserLogged userlog;
 
 	private int id;
-	private String username;
+	private String email;
+	private String originalMail;
 	private String password;
 	private String result = "";
 
 	public String doLogin() {
-		//log.trace("Iniciado login"+username);
-		//log.error("erro");
 		String destiny = "";
-		boolean verified = userejb.verifyLogin(this.username, this.password);
-		if (verified) {
-		//	log.debug("Login verificado para "+username);
+		if (userejb.verifyLogin(this.email, this.password)) {
+			System.out.println(email);
 			setFacesContext();
-			userlog.setEmail(username);
+			userlog.setEmail(originalMail);
 			try {
-				userlog.setId(userejb.getUserID(username));
+				userlog.setName(userejb.getName(email));
+				userlog.setId(userejb.getUserID(email));
 			} catch (NoResultException nre) {
-			//	log.debug("CATCH XXXXX");
 				// Sem resultados
 			}
 			destiny="/Authorized/entry.xhtml?faces-redirect=true";
-			LoginChoose.setShowLogin(false);
-			result = "Verdadeiro";
+			result = "Login válido";
 		} else { 
-			result = "Login inválido";
-			//log.warn("login inválido XXXXXX");
+			result = "Login inválido: "+password;
 			destiny = "";
 		}
-
 		return destiny;
 	}
 
@@ -80,11 +71,11 @@ public class UserLogin implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;
