@@ -23,8 +23,8 @@ public class Authentication implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
-
-		if (((HttpServletRequest) req).getSession().getAttribute("logged") == null) {
+		
+		if (!(boolean)((HttpServletRequest) req).getSession().getAttribute("vip")) {
 			((HttpServletResponse) resp).sendRedirect("../NonAuthorized.xhtml");
 		} else {
 			chain.doFilter(req, resp);

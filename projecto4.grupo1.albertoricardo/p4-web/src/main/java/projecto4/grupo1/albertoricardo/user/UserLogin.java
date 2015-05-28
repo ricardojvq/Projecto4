@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -13,10 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import projecto4.grupo1.albertoricardo.UserEJBLocal;
-import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class UserLogin implements Serializable {
 
 	/**
@@ -26,6 +26,10 @@ public class UserLogin implements Serializable {
 
 	@EJB
 	private UserEJBLocal userejb;
+	
+	@SuppressWarnings("unused")
+	@Inject
+	private LoginChoose lc;
 
 	@Inject
 	private UserLogged userlog;
@@ -44,6 +48,7 @@ public class UserLogin implements Serializable {
 			userlog.setEmail(originalMail);
 			try {
 				userlog.setName(userejb.getName(email));
+				System.out.println(userejb.getName(email));
 				userlog.setId(userejb.getUserID(email));
 			} catch (NoResultException nre) {
 				// Sem resultados
@@ -62,7 +67,7 @@ public class UserLogin implements Serializable {
 		ExternalContext ext = context.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) ext.getRequest();
 		HttpSession session = request.getSession();
-		session.setAttribute("logged", "yes");
+		session.setAttribute("vip", true);
 	}
 
 	public int getId() {

@@ -3,7 +3,11 @@ package projecto4.grupo1.albertoricardo.user;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Named
 @SessionScoped
@@ -19,6 +23,30 @@ public class UserLogged implements Serializable {
 
 	public UserLogged() {
 		super();
+	}
+	
+	public void getAtt() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext ext = context.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ext.getRequest();
+		HttpSession session = req.getSession();
+	}
+	
+	public String doLogout() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext ext = context.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ext.getRequest();
+		HttpSession session = req.getSession();
+		session.invalidate();
+		return "/login.xhtml?faces-redirect=true";
+	}
+	
+	public void setAtt() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext ext = context.getExternalContext();
+		HttpServletRequest req = (HttpServletRequest) ext.getRequest();
+		HttpSession session = req.getSession();
+		session.setAttribute("vip", "yes");
 	}
 
 	public int getId() {

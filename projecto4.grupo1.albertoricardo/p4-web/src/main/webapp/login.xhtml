@@ -48,8 +48,10 @@
 						value="#{userRegister.password}" />
 				Conf. Password: <h:inputSecret id="confirmPassword"
 						styleClass="form-control" value="#{userRegister.passwordConfirm}" />
-					<h:commandButton action="#{userLogin.doLogin}" value="Entrar"
-						styleClass="btn btn-lg btn-primary btn-block" disabled="true" />
+					<h:commandButton action="#{loginChoose.toggle()}" value="Voltar"
+						styleClass="btn btn-lg btn-primary btn-block">
+						<f:ajax render="@form" />
+					</h:commandButton>
 					<h:commandButton action="#{userRegister.addNewUser()}"
 						value="Registar" styleClass="btn btn-lg btn-primary btn-block">
 					</h:commandButton>

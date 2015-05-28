@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -15,8 +14,12 @@
 	<title>Playlist</title>
 </h:head>
 <h:body>
-	<ui:composition>
+	<ui:composition template="../Layout/layout.xhtml">
 		<ui:define name="conteudo">
+		userid:
+			<h:outputLabel value="#{userLogged.id}" />
+			
+			<h:outputLabel value="#{userLogged.getAtt()}" />
 		</ui:define>
 	</ui:composition>
 </h:body>

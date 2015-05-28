@@ -70,7 +70,7 @@ public class UserLoginTest {
 		userLogin.setPassword("123");
 		Mockito.when(userEJB.verifyLogin(userLogin.getEmail(), userLogin.getPassword())).thenReturn(true);
 		String d = userLogin.doLogin();
-		assertEquals("", "/Authorized/entry.xhtml?faces-redirect=true", d);
+		assertEquals("", "/Authorized/Layout/layout.xhtml?faces-redirect=true", d);
 	}
 
 }

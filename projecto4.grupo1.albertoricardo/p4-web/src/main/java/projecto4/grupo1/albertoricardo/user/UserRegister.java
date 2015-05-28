@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import projecto4.grupo1.albertoricardo.UserEJBLocal;
-import projecto4.grupo1.albertoricardo.security.PasswordEncryptor;
 
 @Named
 @RequestScoped
@@ -20,6 +20,9 @@ public class UserRegister implements Serializable {
 
 	@EJB
 	private UserEJBLocal userejb;
+	
+	@Inject
+	private LoginChoose lc;
 
 	private String email;
 	private String emailConfirm;
@@ -41,7 +44,7 @@ public class UserRegister implements Serializable {
 			try {
 				userejb.registerUser(email, password, name);
 				result = "Utilizador '"+emailConfirm+"' criado com sucesso!";
-				LoginChoose.toggle();
+				lc.toggle();
 				destiny="login.xhtml?faces-redirect=true";
 			} catch(Exception e) {
 				result = "'"+emailConfirm+"' já existe, escolhe um e-mail diferente.";

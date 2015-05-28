@@ -13,8 +13,8 @@ public class LoginChoose implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static boolean showLogin = true;
-	public static boolean showRegister = false;
+	private boolean showLogin = true;
+	private boolean showRegister = false;
 
 	public void doShowLogin() {
 		showLogin = true;
@@ -26,7 +26,7 @@ public class LoginChoose implements Serializable {
 		showRegister = true;
 	}
 	
-	public static void toggle() {
+	public void toggle() {
 		if (showLogin) {
 			showLogin = false;
 			showRegister = true;
@@ -40,7 +40,7 @@ public class LoginChoose implements Serializable {
 		return showLogin;
 	}
 
-	public static void setShowLogin(boolean showL) {
+	public void setShowLogin(boolean showL) {
 		showLogin = showL;
 	}
 
@@ -48,7 +48,7 @@ public class LoginChoose implements Serializable {
 		return showRegister;
 	}
 
-	public static void setShowRegister(boolean showR) {
+	public void setShowRegister(boolean showR) {
 		showRegister = showR;
 	}
 	
